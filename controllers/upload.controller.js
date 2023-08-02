@@ -6,10 +6,11 @@ const { uploadErrors } = require("../utils/errors.utils");
 
 module.exports.uploadProfil = async (req, res) => {
   try {
+    console.log(req.file.mimetype);
     if (
-      req.file.detectedMimeType != "image/jpg" &&
-      req.file.detectedMimeType != "image/png" &&
-      req.file.detectedMimeType != "image/jpeg"
+      req.file.mimetype != "image/jpg" &&
+      req.file.mimetype != "image/png" &&
+      req.file.mimetype != "image/jpeg"
     )
       throw Error("invalid file");
 
