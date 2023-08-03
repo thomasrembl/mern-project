@@ -21,10 +21,11 @@ module.exports.createPost = async (req, res) => {
 
   if (req.file != null) {
     try {
+      console.log(req.file.mimetype);
       if (
-        req.file.MimeType !== "image/jpg" &&
-        req.file.MimeType !== "image/png" &&
-        req.file.MimeType !== "image/jpeg"
+        req.file.mimetype !== "image/jpg" &&
+        req.file.mimetype !== "image/png" &&
+        req.file.mimetype !== "image/jpeg"
       )
         throw Error("invalid file");
 
