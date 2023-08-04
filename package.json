@@ -26,6 +26,7 @@
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.0.1",
     "normalize": "^0.3.1",
+    "pipeline-js": "^1.0.2",
     "temp": "^0.9.4",
     "util": "^0.12.5",
     "validator": "^13.9.0"
