@@ -33,13 +33,11 @@ const Thread = () => {
     <div className="thread-container">
       <ul>
         {!isEmpty(posts[0]) &&
-          posts.map((post) => {
-            return (
-              <li>
-                <Card post={post} key={post._id} />
-              </li>
-            );
-          })}
+          posts.map((post) => (
+            <li key={post._id}>
+              <Card post={post} />
+            </li>
+          ))}
       </ul>
     </div>
   );

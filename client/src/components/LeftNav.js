@@ -20,7 +20,7 @@ const LeftNav = () => {
         <div className="icons-bis">
           <NavLink
             to="/"
-            exact
+            exact="true"
             className={`nav-link ${
               matchHome ? "active-left-nav" : "unselected"
             }`}
@@ -30,7 +30,7 @@ const LeftNav = () => {
           <br />
           <NavLink
             to="/trending"
-            exact
+            exact="true"
             className={`nav-link ${
               matchTrending ? "active-left-nav" : "unselected"
             }`}
@@ -40,7 +40,7 @@ const LeftNav = () => {
           <br />
           <NavLink
             to="/profil"
-            exact
+            exact="true"
             className={`nav-link ${
               matchProfile ? "active-left-nav" : "unselected"
             }`}

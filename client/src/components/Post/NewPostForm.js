@@ -82,7 +82,7 @@ const NewPostForm = () => {
               {userData.followers && userData.followers.length > 1 ? "s" : null}
             </p>
           </div>
-          <NavLink exact to="/profil">
+          <NavLink exact="true" to="/profil">
             <div className="user-info">
               <img src={userData.picture} alt="user-img" />
             </div>
