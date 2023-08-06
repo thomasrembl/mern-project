@@ -4,12 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import UploadImg from "./UploadImg";
 import { updateBio } from "../../actions/user.actions";
 import { dateParser } from "../Utils";
+import FollowHandler from "./FollowHandler";
 
 const UpadateProfil = () => {
   const [bio, setBio] = useState("");
   const [updateForm, setUpdateForm] = useState(false);
   const userData = useSelector((state) => state.userReducer);
   const usersData = useSelector((state) => state.usersReducer);
+  const error = useSelector((state) => state.errorReducer.userError);
   const dispatch = useDispatch();
   const [followingPopUp, setFollowingPopUp] = useState(false);
   const [followersPopUp, setFollowersPopUp] = useState(false);
@@ -28,6 +30,8 @@ const UpadateProfil = () => {
           <h3>Photo de profil</h3>
           <img src={userData.picture} alt="user-pic" />
           <UploadImg />
+          <p>{error.maxSize}</p>
+          <p>{error.format}</p>
         </div>
         <div className="right-part">
           <div className="bio-update">
@@ -75,11 +79,17 @@ const UpadateProfil = () => {
                       <li key={user._id}>
                         <img src={user.picture} alt="user-pic" />{" "}
                         <h4>{user.pseudo}</h4>
-                        <h1>Follow handler</h1>
+                        <div className="follow-handler">
+                          <FollowHandler
+                            idToFollow={user._id}
+                            type={"suggestion"}
+                          />
+                        </div>
                       </li>
                     );
                   }
                 }
+                return null;
               })}
             </ul>
           </div>
@@ -100,11 +110,17 @@ const UpadateProfil = () => {
                       <li key={user._id}>
                         <img src={user.picture} alt="user-pic" />{" "}
                         <h4>{user.pseudo}</h4>
-                        <h1>Follow handler</h1>
+                        <div className="follow-handler">
+                          <FollowHandler
+                            idToFollow={user._id}
+                            type={"suggestion"}
+                          />
+                        </div>
                       </li>
                     );
                   }
                 }
+                return null;
               })}
             </ul>
           </div>

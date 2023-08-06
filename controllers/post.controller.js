@@ -5,6 +5,7 @@ const fs = require("fs");
 const { promisify } = require("util");
 const pipeline = promisify(require("stream").pipeline);
 const ObjectID = require("mongoose").Types.ObjectId;
+const path = require("path");
 
 module.exports.readPost = async (req, res) => {
   try {
@@ -21,7 +22,6 @@ module.exports.createPost = async (req, res) => {
 
   if (req.file != null) {
     try {
-      console.log(req.file.mimetype);
       if (
         req.file.mimetype !== "image/jpg" &&
         req.file.mimetype !== "image/png" &&
@@ -32,31 +32,47 @@ module.exports.createPost = async (req, res) => {
       if (req.file.size > 500000) throw Error("max size");
     } catch (err) {
       const errors = uploadErrors(err);
-      return res.status(400).json({ errors });
+      return res.status(201).json({ errors });
     }
+
     fileName = req.body.posterId + Date.now() + ".jpg";
-    await pipeline(
-      req.file.stream,
-      fs.createWriteStream(
-        `${__dirname}/../client/public/uploads/posts/${fileName}`
-      )
+
+    const destinationPath = path.join(
+      __dirname,
+      `../client/public/uploads/posts/${fileName}`
     );
-  }
+    try {
+      await fs.promises.writeFile(destinationPath, req.file.buffer);
 
-  const newPost = new PostModel({
-    posterId: req.body.posterId,
-    message: req.body.message,
-    picture: req.file != null ? `./uploads/posts/${fileName}` : "", // Correction ici
-    video: req.body.video,
-    likers: [],
-    comments: [],
-  });
+      const newPost = new PostModel({
+        posterId: req.body.posterId,
+        message: req.body.message,
+        picture: `./uploads/posts/${fileName}`,
+        video: req.body.video,
+        likers: [],
+        comments: [],
+      });
 
-  try {
-    const post = await newPost.save();
-    return res.status(201).json(post);
-  } catch (err) {
-    return res.status(400).send(err);
+      const post = await newPost.save();
+      return res.status(201).json(post);
+    } catch (err) {
+      return res.status(400).send(err);
+    }
+  } else {
+    try {
+      const newPost = new PostModel({
+        posterId: req.body.posterId,
+        message: req.body.message,
+        video: req.body.video,
+        likers: [],
+        comments: [],
+      });
+
+      const post = await newPost.save();
+      return res.status(201).json(post);
+    } catch (err) {
+      return res.status(400).send(err);
+    }
   }
 };
 
